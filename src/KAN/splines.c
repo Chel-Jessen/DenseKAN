@@ -20,12 +20,11 @@ double b_spline_basis(unsigned int i, unsigned int k, double x, double *knots) {
     // i == index of the basis function
     // k == order of the basis function
     if (k == 0) {
-        return (knots[i] <= x && x < knots[i + 1]) ? 1.0 : 0.0;
-    } else {
-        double coef1 = (x - knots[i]) / (knots[i + k] - knots[i]);
-        double coef2 = (knots[i + k + 1] - x) / (knots[i + k + 1] - knots[i + 1]);
-        return coef1 * b_spline_basis(i, k - 1, x, knots) + coef2 * b_spline_basis(i + 1, k - 1, x, knots);
+        return knots[i] <= x && x < knots[i + 1] ? 1.0 : 0.0;
     }
+    double coef1 = (x - knots[i]) / (knots[i + k] - knots[i]);
+    double coef2 = (knots[i + k + 1] - x) / (knots[i + k + 1] - knots[i + 1]);
+    return coef1 * b_spline_basis(i, k - 1, x, knots) + coef2 * b_spline_basis(i + 1, k - 1, x, knots);
 }
 
 // Evaluate the B-spline
